@@ -45,8 +45,6 @@ namespace FileManager
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
-            app.Run();
-            Console.WriteLine("Тест");
-        }
+            app.Run();        }
     }
 }
