@@ -20,7 +20,7 @@ jobs:
           echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/id_rsa.pub
           chmod 600 ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa.pub
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          ssh-keyscan 109.123.252.229 >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
       - name: Display Greeting
