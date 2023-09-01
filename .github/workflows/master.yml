@@ -32,5 +32,5 @@ jobs:
     
     - name: Deploy to Server
       run: |
-        scp -r -o "PasswordAuthentication=yes" -o "PreferredAuthentications=password" ./publish/* root@109.123.252.229:/root
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -r ./publish/* root@109.123.252.229:/root
         ssh -o "PasswordAuthentication=yes" -o "PreferredAuthentications=password" root@109.123.252.229 'cd /root && chmod +x FileManager && ./FileManager --urls "http://109.123.252.229:5000"'
