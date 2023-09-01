@@ -13,20 +13,19 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Set up SSH
+    - name: Set up SSH 
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_PASSWORD }}" > ~/.ssh/password
+        chmod 600 ~/.ssh/password
         ssh-keyscan 109.123.252.229 >> ~/.ssh/known_hosts
         chmod 644 ~/.ssh/known_hosts
 
     - name: Build and Publish Application
       run: |
-       sudo mkdir -p /root/FileManager
-       sudo dotnet publish ./FileManager/FileManager.csproj --configuration Release --output /root/FileManager
+         dotnet publish ./FileManager/FileManager.csproj --configuration Release --output /home --self-contained true --runtime linux-x64 /p:PublishSingleFile=true
 
     - name: Deploy to Server
       run: |
-        chmod +x /root/FileManager/FileManager
-        screen -d -m -S FileManager /root/FileManager/FileManager --urls "http://109.123.252.229:5000"
+        chmod +x /home
+        screen -d -m -S FileManager /home/FileManager --urls "http://109.123.252.229:5000"
