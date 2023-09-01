@@ -28,9 +28,8 @@ jobs:
       run: dotnet build --configuration Release
 
     - name: Publish Application
-      run: dotnet publish --configuration Release --output ./publish
+      run: dotnet publish --configuration Release --output ./root
     
     - name: Deploy to Server
       run: |
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -r ./publish/* root@109.123.252.229:/root
         ssh -o "PasswordAuthentication=yes" -o "PreferredAuthentications=password" root@109.123.252.229 'cd /root && chmod +x FileManager && ./FileManager --urls "http://109.123.252.229:5000"'
