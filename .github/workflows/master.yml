@@ -27,10 +27,9 @@ jobs:
         run: dotnet build --configuration Release FileManager/FileManager.csproj
 
       - name: Publish Application
-        run: dotnet publish --configuration Release --output ./publish FileManager/FileManager.csproj
+        run: dotnet publish --configuration Release --output ./root FileManager/FileManager.csproj
 
       - name: Deploy to Server
         run: |
-          scp -r ./publish/* root@109.123.252.229:/root
           ssh root@109.123.252.229 "screen -r FileManager"
           ssh root@109.123.252.229 "cd /root && chmod +x FileManager && ./FileManager --urls 'http://109.123.252.229:5000'"
