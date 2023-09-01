@@ -3,7 +3,7 @@ name: SSH Commands on Push
 on:
   push:
     branches:
-      - master # замените на имя вашей основной ветки
+      - main # замените на имя вашей основной ветки
 
 jobs:
   deploy:
@@ -16,9 +16,9 @@ jobs:
       - name: Set up SSH keys
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PASSWORD }}" > ~/.ssh/password
+          chmod 600 ~/.ssh/password
+          ssh-keyscan 109.123.252.229 >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
       - name: Display Greeting
@@ -28,4 +28,4 @@ jobs:
 
       - name: SSH Command
         run: |
-          ssh -o StrictHostKeyChecking=no root@109.123.252.229 'sudo your-command'
+          sshpass -f ~/.ssh/password ssh root@109.123.252.229 'your-command'
