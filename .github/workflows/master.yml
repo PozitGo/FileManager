@@ -23,7 +23,7 @@ jobs:
 
     - name: Build and Publish Application
       run: |
-        dotnet publish --configuration Release --output ./root --self-contained -r linux-x64
+        dotnet publish --configuration Release --output ./root --self-contained -r linux-x64 ./FileManager/FileManager.csproj
         chmod +x ./root/FileManager
 
     - name: Deploy to Server
