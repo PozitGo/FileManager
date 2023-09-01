@@ -10,21 +10,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Set up SSH 
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PASSWORD }}" > ~/.ssh/password
-        chmod 600 ~/.ssh/password
-        ssh-keyscan 109.123.252.229 >> ~/.ssh/known_hosts
-        chmod 644 ~/.ssh/known_hosts
+      - name: Set up SSH 
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PASSWORD }}" > ~/.ssh/password
+          chmod 600 ~/.ssh/password
+          ssh-keyscan 109.123.252.229 >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
 
-    - name: Build and Publish Application
-      run: sudo dotnet publish ./FileManager/FileManager.csproj --configuration Release --output /root/FileManager --self-contained true -r linux-x64 /p:PublishSingleFile=true
+      - name: Build and Publish Application
+        run: |
+          sudo dotnet publish ./FileManager/FileManager.csproj \
+            --configuration Release \
+            --output /root/FileManager \
+            --self-contained true \
+            -r linux-x64 \
+            /p:PublishSingleFile=true
 
-    - name: Deploy to Server
-      run: |
-        chmod +x /root/FileManager
-        screen -d -m -S FileManager /root/FileManager --urls "http://109.123.252.229:5000"
+      - name: Deploy to Server
+        run: |
+          chmod +x /root/FileManager
+          screen -d -m -S FileManager /root/FileManager --urls "http://109.123.252.229:5000"
