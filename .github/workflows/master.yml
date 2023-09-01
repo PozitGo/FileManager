@@ -15,11 +15,11 @@ jobs:
 
       - name: Set Up SSH
         run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan 109.123.252.229 >> ~/.ssh/known_hosts
-        chmod 644 ~/.ssh/known_hostss
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan 109.123.252.229 >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
 
       - name: Install Dependencies
         run: dotnet restore FileManager/FileManager.csproj
@@ -28,8 +28,9 @@ jobs:
         run: dotnet build --configuration Release FileManager/FileManager.csproj
 
       - name: Publish Application
-        run: dotnet publish --configuration Release --output ./root FileManager/FileManager.csproj
+        run: dotnet publish --configuration Release --output ./publish FileManager/FileManager.csproj
 
       - name: Deploy to Server
         run: |
+          scp -r ./publish/* root@109.123.252.229:/root
           ssh root@109.123.252.229 'cd /root && chmod +x FileManager && ./FileManager --urls "http://109.123.252.229:5000"'
