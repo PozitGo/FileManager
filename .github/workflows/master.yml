@@ -23,6 +23,7 @@ jobs:
 
     - name: Build and Publish Application
       run: |
+        sudo mkdir -p /root/FileManager
         sudo dotnet publish ./FileManager/FileManager.csproj --configuration Release --output /root/FileManager -r linux-x64 -p:PublishSingleFile=true --self-contained true
 
     - name: Deploy to Server
