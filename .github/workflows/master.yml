@@ -3,7 +3,7 @@ name: SSH Commands on Push
 on:
   push:
     branches:
-      - master # замените на имя вашей основной ветки
+      - master
 
 jobs:
   deploy:
@@ -21,11 +21,6 @@ jobs:
           ssh-keyscan 109.123.252.229 >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
-      - name: Display Greeting
-        run: |
-          echo "Привет, это моя команда:"
-          echo 'your-command'
-
       - name: SSH Command
         run: |
-          sshpass -f ~/.ssh/password ssh root@109.123.252.229 'your-command'
+          sshpass -f ~/.ssh/password ssh root@109.123.252.229 'echo "Текст для вывода в консоль"'
