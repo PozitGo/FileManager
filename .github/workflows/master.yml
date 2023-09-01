@@ -14,10 +14,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set Up SSH
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          cat /etc/ssh/ssh_host_rsa_key.pub >> ~/.ssh/known_hosts"
 
       - name: Install Dependencies
         run: dotnet restore FileManager/FileManager.csproj
