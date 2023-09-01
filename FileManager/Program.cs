@@ -46,7 +46,7 @@ namespace FileManager
             app.UseAuthorization();
             app.MapControllers();
             app.Run();
-            Console.WriteLine("Пизда");
+            Console.WriteLine("Тест");
         }
     }
 }
