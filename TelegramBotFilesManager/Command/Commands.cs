@@ -43,12 +43,16 @@ namespace TelegramBotFilesManager.Command
                     await botClient.SendTextMessageAsync(
                         chatId: update?.Message?.Chat.Id!,
                         text: $"Файл успешно отправлен, конечная точка полученной картинки https://syntaxjuggler.com/api/files/display/{JsonConvert.DeserializeObject<APIResponse>(responseContent)!.Data}");
+
+                  await Task.Delay(1000);
                 }
                 else
                 {
                     await botClient.SendTextMessageAsync(
                         chatId: update?.Message?.Chat.Id!,
                         text: "Ошибка загрузки фотографии");
+
+                    await Task.Delay(1000);
                 }
 
             }
@@ -112,6 +116,15 @@ namespace TelegramBotFilesManager.Command
         {
             this.botClient = botClient;
         }
+
+        private IEnumerable<string> SplitTextIntoChunks(string text, int chunkSize)
+        {
+            for (int i = 0; i < text.Length; i += chunkSize)
+            {
+                yield return text.Substring(i, Math.Min(chunkSize, text.Length - i));
+            }
+        }
+
         public async Task Execute(Update update)
         {
             using (HttpClient client = new HttpClient())
@@ -122,11 +135,34 @@ namespace TelegramBotFilesManager.Command
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var temp = JsonConvert.DeserializeObject<APIResponse>(responseContent)?.Data?.ToString();
+                    var maxMessageLength = 4096;
 
-                    await botClient.SendTextMessageAsync(
-                    chatId: update?.Message?.Chat.Id!,
-                     text: $"{(!string.IsNullOrEmpty(temp) && temp != "[]" ? temp : "Список пуст")}");
+                    var temp = JsonConvert.DeserializeObject<APIResponse>(responseContent)?.Data?.ToString();
+                    if (temp != null && temp != "[]")
+                    {
+                        if (temp.Length <= maxMessageLength)
+                        {
+                            await botClient.SendTextMessageAsync(
+                                chatId: update?.Message?.Chat.Id!,
+                                text: temp);
+                        }
+                        else
+                        {
+                            var chunks = SplitTextIntoChunks(temp, maxMessageLength);
+                            foreach (var chunk in chunks)
+                            {
+                                await botClient.SendTextMessageAsync(
+                                    chatId: update?.Message?.Chat.Id!,
+                                    text: chunk);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        await botClient.SendTextMessageAsync(
+                            chatId: update?.Message?.Chat.Id!,
+                            text: "Список пуст");
+                    }
                 }
                 else
                 {

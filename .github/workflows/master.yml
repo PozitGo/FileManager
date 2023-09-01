@@ -1,0 +1,36 @@
+name: Deploy FileManager to Server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+
+      - name: Install Dependencies
+        run: dotnet restore FileManager/FileManager.csproj
+
+      - name: Build Application
+        run: dotnet build --configuration Release FileManager/FileManager.csproj
+
+      - name: Publish Application
+        run: dotnet publish --configuration Release --output ./publish FileManager/FileManager.csproj
+
+      - name: Deploy to Server
+        run: |
+          scp -r ./publish/* root@109.123.252.229:/root
+          ssh root@109.123.252.229 "cd /root"
+          ssh root@109.123.252.229 "chmod +x FileManager"
+          ssh root@109.123.252.229 "./FileManager"

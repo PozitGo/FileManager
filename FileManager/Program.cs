@@ -16,14 +16,16 @@ namespace FileManager
             var builder = WebApplication.CreateBuilder(args);
             builder.Host.UseSerilog();
             builder.Services.AddControllers();
+
             builder.Services.AddControllers(options =>
             {
-                options.CacheProfiles.Add("Default30", new CacheProfile() //Создания профиля кеширования для всех контроллеров Default30 - имя профиля
+                options.CacheProfiles.Add("Default30", new CacheProfile()
                 {
                     Duration = 15,
 
                 });
             }).AddNewtonsoftJson();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IFileRepository, FileRepository>();
