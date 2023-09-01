@@ -3,7 +3,7 @@ name: SSH Commands on Push
 on:
   push:
     branches:
-      - main # замените на имя вашей основной ветки
+      - master # замените на имя вашей основной ветки
 
 jobs:
   deploy:
