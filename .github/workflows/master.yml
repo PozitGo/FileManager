@@ -21,16 +21,11 @@ jobs:
         ssh-keyscan 109.123.252.229 >> ~/.ssh/known_hosts
         chmod 644 ~/.ssh/known_hosts
 
-    - name: Install Dependencies
-      run: dotnet restore
+    - name: Build and Publish Application
+      run: |
+        dotnet publish --configuration Release --output ./root --self-contained -r linux-x64
+        chmod +x ./root/FileManager
 
-    - name: Build Application
-      run: dotnet build --configuration Release
-
-    - name: Publish Application
-      run: dotnet publish --configuration Release --output ./root --self-contained -r linux-x64
-    
     - name: Deploy to Server
       run: |
-        chmod +x FileManager
-        screen -d -m -S FileManager ./FileManager --urls "http://109.123.252.229:5000"
+        screen -d -m -S FileManager ./root/FileManager --urls "http://109.123.252.229:5000"
