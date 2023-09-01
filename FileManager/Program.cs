@@ -30,7 +30,7 @@ namespace FileManager
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IFileRepository, FileRepository>();
             builder.Services.AddResponseCaching();
-            builder.Services.AddDbContext<ApplicationDbContext>(option => 
+            builder.Services.AddDbContext<ApplicationDbContext>(option =>
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
             });
@@ -47,4 +47,5 @@ namespace FileManager
             app.MapControllers();
             app.Run();
         }
+    }
 }
