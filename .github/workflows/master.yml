@@ -23,9 +23,9 @@ jobs:
 
     - name: Build and Publish Application
       run: |
-        sudo dotnet publish ./FileManager/FileManager.csproj --configuration Release --output /root -r linux-x64 -p:PublishSingleFile=true --self-contained true
-        chmod +x /root/FileManager
+        dotnet publish ./FileManager/FileManager.csproj --configuration Release --output /root/FileManager -r linux-x64 -p:PublishSingleFile=true --self-contained true
 
     - name: Deploy to Server
       run: |
-        screen -d -m -S FileManager /root/FileManager --urls "http://109.123.252.229:5000"
+        chmod +x /root/FileManager/FileManager
+        screen -d -m -S FileManager /root/FileManager/FileManager --urls "http://109.123.252.229:5000"
