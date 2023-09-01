@@ -32,7 +32,5 @@ jobs:
     
     - name: Deploy to Server
       run: |
-        screen -r FileManager
-        cd /root
         chmod +x FileManager
-        ./FileManager --urls "http://109.123.252.229:5000"
+        screen -d -m -S FileManager ./FileManager --urls "http://109.123.252.229:5000"
