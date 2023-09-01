@@ -18,7 +18,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          cat /etc/ssh/ssh_host_rsa_key.pub >> ~/.ssh/known_hosts"
+          cat /etc/ssh/ssh_host_rsa_key.pub >> ~/.ssh/known_hosts
 
       - name: Install Dependencies
         run: dotnet restore FileManager/FileManager.csproj
