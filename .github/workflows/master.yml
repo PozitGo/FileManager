@@ -31,6 +31,5 @@ jobs:
       - name: Deploy to Server
         run: |
           scp -r ./publish/* root@109.123.252.229:/root
-          ssh root@109.123.252.229 "cd /root"
-          ssh root@109.123.252.229 "chmod +x FileManager"
-          ssh root@109.123.252.229 "./FileManager --urls "http://109.123.252.229:5000""
+          ssh root@109.123.252.229 "screen -r FileManager"
+          ssh root@109.123.252.229 "cd /root && chmod +x FileManager && ./FileManager --urls 'http://109.123.252.229:5000'"
