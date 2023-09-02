@@ -22,7 +22,7 @@ jobs:
           chmod 644 ~/.ssh/known_hosts
 
       - name: Publish Application
-        run:  dotnet publish ./FileManager/FileManager.csproj --configuration Release --output ./publish --self-contained true  linux-x64 /p:PublishSingleFile=true
+        run:  sudo dotnet publish ./FileManager/FileManager.csproj --configuration Release --output ./publish --self-contained true -r linux-x64 /p:PublishSingleFile=true
 
       - name: Transfer Files to SSH Server
         run: sshpass -f ~/.ssh/password scp -r ./publish/* root@109.123.252.229:/root
