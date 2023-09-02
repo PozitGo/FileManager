@@ -3,7 +3,7 @@ name: Publish C# Application
 on:
   push:
     branches:
-      - master  # ”кажите вашу основную ветку
+      - master
 
 jobs:
   build:
@@ -13,11 +13,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PASSWORD }}" > ~/.ssh/password
+          chmod 600 ~/.ssh/password
+          ssh-keyscan your-server-ip >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
       - name: Restore Dependencies
-        run: dotnet restore ./FileManager/FileManager.csproj
+        run: |
+          sshpass -f ~/.ssh/password ssh root@109.123.252.229 'cd /root && dotnet restore'
 
       - name: Build Application
-        run: dotnet build ./FileManager/FileManager.csproj --configuration Release
+        run: |
+          sshpass -f ~/.ssh/password ssh  root@109.123.252.229 'cd /root && dotnet build --configuration Release'
 
       - name: Publish Application
-        run: sudo dotnet publish ./FileManager/FileManager.csproj --output /root
+        run: |
+          sshpass -f ~/.ssh/password ssh root@109.123.252.229 'cd /root && sudo dotnet publish --output /root'
