@@ -18,17 +18,17 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PASSWORD }}" > ~/.ssh/password
           chmod 600 ~/.ssh/password
-          ssh-keyscan 109.123.252.229  >> ~/.ssh/known_hosts
+          ssh-keyscan 109.123.252.229 >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
       - name: Restore Dependencies
-        run: |
-          sshpass -f ~/.ssh/password ssh root@109.123.252.229 'cd /root && dotnet restore'
+        run: dotnet restore
 
       - name: Build Application
-        run: |
-          sshpass -f ~/.ssh/password ssh  root@109.123.252.229 'cd /root && dotnet build --configuration Release'
+        run: dotnet build --configuration Release
 
       - name: Publish Application
-        run: |
-          sshpass -f ~/.ssh/password ssh root@109.123.252.229 'cd /root && sudo dotnet publish --output /root'
+        run: sudo dotnet publish ./FileManager/FileManager.csproj --configuration Release --output ./publish --self-contained true --runtime linux-x64 /p:PublishSingleFile=true
+
+      - name: Transfer to Server
+        run: scp -o "PasswordAuthentication=yes" -r ./publish/* root@109.123.252.229:/root/
