@@ -20,9 +20,4 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: Publish Application
-        run: sudo dotnet publish --configuration Release --output /root
-
-      - name: Deploy to Server
-        run: |
-          # «десь добавьте команды дл€ развертывани€ вашего приложени€ на сервере
-          # Ќапример, вы можете использовать SCP, SSH и другие инструменты дл€ копировани€ файлов и запуска приложени€
+        run: dotnet publish --configuration Release --output ./publish
