@@ -13,11 +13,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 7.0  # ”кажите версию .NET SDK, котора€ подходит дл€ вашего проекта
-
       - name: Restore Dependencies
         run: dotnet restore ./FileManager/FileManager.csproj
 
