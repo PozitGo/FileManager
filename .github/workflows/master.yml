@@ -21,14 +21,9 @@ jobs:
           ssh-keyscan 109.123.252.229 >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
-      - name: Restore Dependencies
-        run: dotnet restore
-
-      - name: Build Application
-        run: dotnet build --configuration Release
-
       - name: Publish Application
-        run: sudo dotnet publish ./FileManager/FileManager.csproj --configuration Release --output ./publish --self-contained true --runtime linux-x64 /p:PublishSingleFile=true
+        run:  dotnet publish ./FileManager/FileManager.csproj --configuration Release --output ./publish --self-contained true --runtime linux-x64 /p:PublishSingleFile=true
 
-      - name: Transfer to Server
-        run: scp -o "PasswordAuthentication=yes" -r ./publish/* root@109.123.252.229:/root/
+      - name: Transfer Files to SSH Server
+        run: |
+          scp -r ./publish/* root@109.123.252.229:/root
