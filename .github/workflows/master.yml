@@ -1,12 +1,12 @@
-name: Deploy to Server
+name: Publish C# Application
 
 on:
   push:
     branches:
-      - master
+      - master  # ”кажите вашу основную ветку
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,18 +14,15 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Restore Dependencies
-        run: dotnet restore ./FileManager/FileManager.csproj
+        run: dotnet restore
 
-      - name: Build and Publish Application
-        run: |
-         sudo dotnet publish ./FileManager/FileManager.csproj \
-            --configuration Release \
-            --output /root \
-            --self-contained true \
-            -r linux-x64 \
-            /p:PublishSingleFile=true
+      - name: Build Application
+        run: dotnet build --configuration Release
+
+      - name: Publish Application
+        run: sudo dotnet publish --configuration Release --output /root
 
       - name: Deploy to Server
         run: |
-          chmod +x /root/FileManager
-          screen -d -m -S FileManager /root/FileManager --urls "http://109.123.252.229:5000"
+          # «десь добавьте команды дл€ развертывани€ вашего приложени€ на сервере
+          # Ќапример, вы можете использовать SCP, SSH и другие инструменты дл€ копировани€ файлов и запуска приложени€
