@@ -13,19 +13,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up SSH 
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PASSWORD }}" > ~/.ssh/password
-          chmod 600 ~/.ssh/password
-          ssh-keyscan 109.123.252.229 >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.0  # ”кажите версию .NET SDK, котора€ подходит дл€ вашего проекта
+
+      - name: Restore Dependencies
+        run: dotnet restore ./FileManager/FileManager.csproj
 
       - name: Build and Publish Application
         run: |
-          sudo dotnet publish ./FileManager/FileManager.csproj \
+          dotnet publish ./FileManager/FileManager.csproj \
             --configuration Release \
-            --output ./root \
+            --output /root \
             --self-contained true \
             -r linux-x64 \
             /p:PublishSingleFile=true
