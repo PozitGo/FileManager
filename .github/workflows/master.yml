@@ -25,14 +25,14 @@ jobs:
         run: sudo dotnet publish --configuration Release --output ./publish --self-contained true -r linux-x64 /p:PublishSingleFile=true
 
       - name: Kill Process
-        run: sshpass -f ~/.ssh/password ssh root@109.123.252.229 'pkill -f FileManager' || true
+        run: sshpass -f ~/.ssh/password ssh root@109.123.252.229 'pkill -o FileManager' || true
+
+      - name: Delete Screen
+        run: sshpass -f ~/.ssh/password ssh root@109.123.252.229 'screen -X -S FileManager quit' || true
 
       - name: Transfer Files to SSH Server
         run: sshpass -f ~/.ssh/password scp -r ./publish/* root@109.123.252.229:/root/FileManager
 
       - name: Start Application
         run: |
-         sshpass -f ~/.ssh/password ssh root@109.123.252.229 'screen -X -S FileManager quit' || true
-         screen -d -m -S FileManager bash -c "cd /root/FileManager && chmod +x FileManager && ./FileManager --urls http://109.123.252.229:5000"
-
-
+          sshpass -f ~/.ssh/password ssh root@109.123.252.229 'screen -d -m -S FileManager bash -c "cd /root/FileManager && chmod +x FileManager && ./FileManager --urls http://109.123.252.229:5000"'
