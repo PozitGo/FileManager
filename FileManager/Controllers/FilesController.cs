@@ -136,7 +136,6 @@ namespace FileManager.Controllers
                     return NotFound(new APIResponse { StatusCode = HttpStatusCode.NotFound, IsSuccess = false, ErrorMessage = "Изображение не найдено", Data = null });
                 }
             }
-
             return NotFound(new APIResponse { StatusCode = HttpStatusCode.NotFound, IsSuccess = false, ErrorMessage = "Изображение не найдено", Data = null });
         }
     }
