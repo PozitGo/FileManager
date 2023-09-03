@@ -32,6 +32,7 @@ jobs:
 
       - name: Start Application
         run: |
-         sshpass -f ~/.ssh/password ssh root@109.123.252.229 'screen -X -S FileManager quit' || true && screen -d -m -S FileManager bash -c "cd /root/FileManager && chmod +x FileManager && ./FileManager --urls http://109.123.252.229:5000"
+         sshpass -f ~/.ssh/password ssh root@109.123.252.229 'screen -X -S FileManager quit' || true
+         screen -d -m -S FileManager bash -c "cd /root/FileManager && chmod +x FileManager && ./FileManager --urls http://109.123.252.229:5000"
 
 
