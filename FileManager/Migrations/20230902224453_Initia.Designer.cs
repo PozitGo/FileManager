@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FileManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230821203508_AddIndex")]
-    partial class AddIndex
+    [Migration("20230902224453_Initia")]
+    partial class Initia
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

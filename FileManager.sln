@@ -5,8 +5,6 @@ VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileManager", "FileManager\FileManager.csproj", "{70708F08-03B0-435C-8BD4-70CA4D659E79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelegramBotFilesManager", "TelegramBotFilesManager\TelegramBotFilesManager.csproj", "{692D8C44-92B4-412E-AE2D-443D183BD745}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{70708F08-03B0-435C-8BD4-70CA4D659E79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70708F08-03B0-435C-8BD4-70CA4D659E79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70708F08-03B0-435C-8BD4-70CA4D659E79}.Release|Any CPU.Build.0 = Release|Any CPU
-		{692D8C44-92B4-412E-AE2D-443D183BD745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{692D8C44-92B4-412E-AE2D-443D183BD745}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{692D8C44-92B4-412E-AE2D-443D183BD745}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{692D8C44-92B4-412E-AE2D-443D183BD745}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
