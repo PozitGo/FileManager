@@ -38,8 +38,9 @@ namespace FileManager.Controllers
             if (image != null)
             {
                 var UUID = Guid.NewGuid().ToString().Substring(0, 5);
-                await fileRepository.CreateAsync(new FileInformation { FileName = image.FileName, UUID = UUID });
-                var filePath = Path.Combine(_filesDirectory, image.FileName);
+                var fileName = $"{UUID}.png";
+                await fileRepository.CreateAsync(new FileInformation { FileName = fileName, UUID = UUID });
+                var filePath = Path.Combine(_filesDirectory, fileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
@@ -50,6 +51,7 @@ namespace FileManager.Controllers
 
             return BadRequest(new APIResponse { StatusCode = HttpStatusCode.BadRequest, IsSuccess = false, ErrorMessage = "Изображение пустое", Data = null });
         }
+
 
         [HttpGet]
         [ResponseCache(CacheProfileName = "Default30")]

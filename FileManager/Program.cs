@@ -22,7 +22,6 @@ namespace FileManager
                 options.CacheProfiles.Add("Default30", new CacheProfile()
                 {
                     Duration = 15,
-
                 });
             }).AddNewtonsoftJson();
 
